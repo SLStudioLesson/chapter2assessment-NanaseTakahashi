@@ -30,13 +30,9 @@ public class RecipeFileHandler {
         ArrayList<String> recipeDatas = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(this.filePath));
-            String line = reader.readLine();
-            if (line != null) {
-                String[] tmp = line.split(",");
-                for (String data : tmp) {
-                    recipeDatas.add(data); // ArrrayListに要素を追加
-                }
-                System.out.println(tmp.toString());
+            String line;
+            while ((line = reader.readLine()) != null) {
+                recipeDatas.add(line); // ArrrayListに要素を追加
             }
             reader.close();
         } catch (IOException e) {
@@ -55,26 +51,21 @@ public class RecipeFileHandler {
      */
      // 
     public void addRecipe(String recipeName, String ingredients) {
-        // [途中] ファイル名
+    // テキストファイルに新しいレシピを書き込みする。
+        // ファイル名
         String filename = this.filePath;
-
-        // [途中] 書き込む内容（ユーザから入力させる）
-        String contentToWrite = "test";
-        // [途中] 既存のレシピに追加で書き込む
+        // 引数で受け取ったレシピ名・材料を文字列結合
+        String contentToWrite = recipeName + "," + ingredients;
+        // 既存のレシピに追加で書き込む
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {
             // 書き込み実行
-            System.out.println(contentToWrite);
-            //writer.write(contentToWrite);
-            //writer.newLine(); // 書き込み後に改行
+            writer.write(contentToWrite);
+            writer.newLine(); // 書き込み後に改行
+                //System.out.println(contentToWrite);
+            // 書き込み完了後のメッセージを出力
+            System.out.println("Recipe added successfully.");
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        // try {
-        
-
-        // } catch (IOException e) {
-
-        // }
     }
 }
